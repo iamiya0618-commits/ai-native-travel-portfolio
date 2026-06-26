@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新西兰南岛 · 7天行程</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+  :root {
+    --cream: #F7F4EF;
+    --ink: #1A1814;
+    --slate: #4A4640;
+    --mist: #9B9590;
+    --forest: #1D6B4A;
+    --blue: #2B5EA7;
+    --amber: #B86A1E;
+    --red: #A63228;
+    --violet: #5C3D8A;
+    --border: #E0DAD0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); }
+
+  .header { padding: 2rem 2rem 1.25rem; border-bottom: 1px solid var(--border); }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+  .header p { font-size: 13px; color: var(--mist); font-weight: 300; }
+
+  .tabs { display: flex; padding: 0 2rem; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { padding: 13px 16px; font-size: 12px; font-weight: 500; color: var(--mist); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: all .2s; letter-spacing: 0.3px; }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+  .content { padding: 1.75rem 2rem; max-width: 800px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .day-hdr { margin-bottom: 1.5rem; }
+  .day-hdr h2 { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600; margin-bottom: 3px; }
+  .day-hdr p { font-size: 13px; color: var(--mist); font-weight: 300; }
+
+  .tl { position: relative; padding-left: 22px; }
+  .tl::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: var(--border); }
+
+  .it { position: relative; margin-bottom: 18px; }
+  .it::before { content: ''; position: absolute; left: -17px; top: 5px; width: 7px; height: 7px; border-radius: 50%; }
+  .it.act::before { background: var(--forest); }
+  .it.move::before { background: var(--blue); }
+  .it.eat::before { background: var(--amber); }
+  .it.stay::before { background: var(--violet); }
+  .it.fly::before { background: var(--ink); }
+  .it.night::before { background: #333; }
+
+  .it-time { font-size: 10px; font-weight: 500; color: var(--mist); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 2px; }
+  .it-t { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.4; margin-bottom: 3px; }
+  .it-d { font-size: 13px; color: var(--slate); line-height: 1.65; font-weight: 300; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .tag { font-size: 11px; padding: 2px 9px; border-radius: 20px; }
+  .tag.cost { background: #FDF0E0; color: #7A4010; }
+  .tag.tip  { background: #EEF0FD; color: #2E3A9E; }
+  .tag.warn { background: #FDECEA; color: #8B2020; }
+  .tag.inc  { background: #E8F4EA; color: #1D5C30; }
+  .tag.done { background: #E8F4EA; color: #1D5C30; font-weight: 500; }
+
+  .alt-box { background: #F0EDF8; border-left: 3px solid var(--violet); border-radius: 0 6px 6px 0; padding: 12px 14px; margin-top: 12px; }
+  .alt-box strong { font-size: 13px; color: var(--violet); display: block; margin-bottom: 4px; }
+  .alt-box p { font-size: 13px; color: var(--slate); line-height: 1.6; font-weight: 300; }
+
+  .note-box { border-radius: 0 6px 6px 0; padding: 12px 14px; margin-top: 12px; }
+  .note-box.amber { background: #FDF8EE; border-left: 3px solid var(--amber); }
+  .note-box.red { background: #FDECEA; border-left: 3px solid var(--red); }
+  .note-box p { font-size: 13px; color: var(--slate); line-height: 1.65; font-weight: 300; }
+  .note-box strong { font-weight: 500; color: var(--ink); }
+
+  .section-title { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--ink); margin: 1.5rem 0 0.75rem; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+
+  .ov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 1.5rem; }
+  .ov-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+  .ov-card .label { font-size: 10px; color: var(--mist); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .ov-card .value { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .ov-card .sub { font-size: 11px; color: var(--mist); margin-top: 2px; font-weight: 300; }
+
+  .budget-table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+  .budget-table th { font-size: 11px; font-weight: 500; color: var(--mist); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); letter-spacing: 0.3px; text-transform: uppercase; }
+  .budget-table td { font-size: 13px; color: var(--slate); padding: 8px 10px; border-bottom: 1px solid var(--border); font-weight: 300; }
+  .budget-table td:last-child { text-align: right; font-weight: 500; color: var(--ink); }
+  .budget-table tr.subtotal-row td { font-size: 12px; color: var(--mist); font-style: italic; padding: 4px 10px; border-bottom: none; }
+  .budget-table tr.total td { font-weight: 600; color: var(--ink); font-size: 14px; border-top: 2px solid var(--ink); border-bottom: none; padding-top: 12px; }
+  .budget-table tr.urgent td:first-child { color: var(--red); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>新西兰南岛 · 7天6晚</h1>
+  <p>6月8日（周一）抵达 → 6月15日（周一）离开 · 2人 · 全程租车自驾 · 皇后镇大本营 · 价格NZD/人</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('ov',this)">总览 & 费用</button>
+  <button class="tab" onclick="show('d1',this)">Day 1 · 6/8</button>
+  <button class="tab" onclick="show('d2',this)">Day 2 · 6/9</button>
+  <button class="tab" onclick="show('d3',this)">Day 3 · 6/10</button>
+  <button class="tab" onclick="show('d4',this)">Day 4 · 6/11</button>
+  <button class="tab" onclick="show('d5',this)">Day 5 · 6/12</button>
+  <button class="tab" onclick="show('d6',this)">Day 6 · 6/13</button>
+  <button class="tab" onclick="show('d7',this)">Day 7 · 6/14</button>
+</div>
+
+<div class="content">
+
+<!-- OVERVIEW -->
+<div class="panel active" id="p-ov">
+  <div class="day-hdr">
+    <h2>行程总览</h2>
+    <p>皇后镇6晚大本营 · Day 5冰川取消则Day 6为备用天</p>
+  </div>
+  <div class="ov-grid">
+    <div class="ov-card"><div class="label">Day 1 · 6/8 周一</div><div class="value">抵达 + Skyline</div><div class="sub">缆车·Luge·山顶晚餐</div></div>
+    <div class="ov-card"><div class="label">Day 2 · 6/9 周二</div><div class="value">米尔福德峡湾</div><div class="sub">全天·5:30am出发</div></div>
+    <div class="ov-card"><div class="label">Day 3 · 6/10 周三</div><div class="value">快艇 + Zipline</div><div class="sub">市区·峡湾后恢复日</div></div>
+    <div class="ov-card"><div class="label">Day 4 · 6/11 周四</div><div class="value">射击 + 瓦纳卡</div><div class="sub">Cardrona·孤树黄昏</div></div>
+    <div class="ov-card"><div class="label">Day 5 · 6/12 周五</div><div class="value">冰川直升机</div><div class="sub">弗朗兹·约瑟夫</div></div>
+    <div class="ov-card"><div class="label">Day 6 · 6/13 周六</div><div class="value">滑雪</div><div class="sub">冰川备用天·6/13起全山开放</div></div>
+    <div class="ov-card"><div class="label">Day 7 · 6/14 周日</div><div class="value">酒庄 + 收尾</div><div class="sub">班车·无需开车</div></div>
+  </div>
+
+  <div class="section-title">活动费用一览（NZD/人，已核实）</div>
+  <table class="budget-table">
+    <tr><th>活动</th><th>备注</th><th>NZD/人</th></tr>
+    <tr><td>Skyline Luge + Premium Dinner</td><td>含缆车往返，5:00pm或7:45pm场</td><td>~167</td></tr>
+    <tr><td>峡湾游船 · RealNZ</td><td>约2小时，需提前预订</td><td>169–175</td></tr>
+    <tr><td>鲨鱼快艇 · 早鸟场</td><td>9:30场，冬季首班</td><td>165</td></tr>
+    <tr><td>鲨鱼快艇 · 普通场</td><td>官网现价</td><td>229</td></tr>
+    <tr><td>Zipline · Moa 4线</td><td>缆车票另购</td><td>149</td></tr>
+    <tr><td>Zipline · Kea 6线</td><td>缆车票另购，最后一段直滑山脚</td><td>195</td></tr>
+    <tr><td>Real Guns · 基础套餐</td><td>步枪20发 + 霰弹枪10发</td><td>169</td></tr>
+    <tr><td>巴雷特 .50 BMG</td><td>现场确认，参考约NZD 50/发</td><td>待确认</td></tr>
+    <tr><td>冰川直升机徒步</td><td>全程约4小时，含直升机</td><td>~800</td></tr>
+    <tr><td>滑雪日票</td><td>Coronet Peak / The Remarkables</td><td>120–165</td></tr>
+    <tr><td>雪具租借</td><td>山脚可租，提前网订更便宜</td><td>60–80</td></tr>
+    <tr><td>酒庄品酒 · Gibbston Valley</td><td>含班车，冬季10:00和14:00两班</td><td>30–60</td></tr>
+  </table>
+
+  <div class="section-title">住宿推荐（皇后镇，全程6晚）</div>
+  <table class="budget-table">
+    <tr><th>档次</th><th>酒店</th><th>NZD/晚</th></tr>
+    <tr><td>豪华</td><td>QT Queenstown</td><td>350–600</td></tr>
+    <tr><td>中档</td><td>Copthorne Hotel & Apartments</td><td>180–280</td></tr>
+    <tr><td>经济</td><td>Nomads Queenstown</td><td>50–80</td></tr>
+  </table>
+
+  <div class="section-title">现在需要预订的事项</div>
+  <table class="budget-table">
+    <tr><th>紧急程度</th><th>项目</th><th>说明</th></tr>
+    <tr class="urgent"><td>🔴 最紧急</td><td>冰川直升机徒步</td><td>热门·取消率50%·越早越好</td></tr>
+    <tr class="urgent"><td>🔴 最紧急</td><td>Real Guns 12点场</td><td>旺季提前至少3天预约</td></tr>
+    <tr><td>🟠 尽快</td><td>Premium Dinner</td><td>热门时段容易满</td></tr>
+    <tr><td>🟠 尽快</td><td>峡湾游船 RealNZ</td><td>官网直订</td></tr>
+    <tr><td>🟠 尽快</td><td>酒庄班车</td><td>冬季仅2班/天，需提前预约</td></tr>
+    <tr><td>🟢 较宽松</td><td>鲨鱼快艇</td><td>早鸟场9:30提前订</td></tr>
+    <tr><td>🟢 较宽松</td><td>Zipline</td><td>ziptrek.com直订</td></tr>
+    <tr><td>🟢 较宽松</td><td>滑雪日票</td><td>提前网购早鸟省约20%</td></tr>
+  </table>
+
+  <div class="note-box red">
+    <p><strong>⚠️ 重要提醒：</strong>租车全程自驾，新西兰靠左行驶，强烈建议买全险（砾石路多）。冰川直升机取消率约50%，天气取消换观光飞行而非退款，预订前看清条款。雪场全山6月13日才开放，Day 6滑雪刚好赶上。</p>
+  </div>
+</div>
+
+<!-- DAY 1 -->
+<div class="panel" id="p-d1">
+  <div class="day-hdr">
+    <h2>Day 1 · 6月8日（周一）</h2>
+    <p>抵达皇后镇 · Skyline缆车 · Luge · Premium Dinner</p>
+  </div>
+  <div class="tl">
+    <div class="it fly">
+      <div class="it-time">抵达</div>
+      <div class="it-t">皇后镇机场（ZQN）取租车</div>
+      <div class="it-d">提前网上预订，机场各柜台取车。新西兰靠左行驶</div>
+      <div class="tags"><span class="tag cost">NZD 60–120/天</span><span class="tag warn">全险必买，砾石路多</span></div>
+    </div>
+    <div class="it act">
+      <div class="it-time">下午</div>
+      <div class="it-t">入住酒店 · 市区适应</div>
+      <div class="it-d">Skyline缆车底站在 Brecon Street，步行5分钟可达，顺道踩点</div>
+    </div>
+    <div class="it act">
+      <div class="it-time">Luge关闭前3小时上山</div>
+      <div class="it-t">Skyline缆车上山 → 先玩 Luge</div>
+      <div class="it-d">冬季Luge开放时间10:00–19:00（以官网当日为准）。先刷3–5圈：Arrow Track（教学道）拿章后进阶 Dart Track（坡陡弯急更刺激）</div>
+      <div class="tags"><span class="tag warn">Luge具体关闭时间出发前查 queenstown.skyline.co.nz</span><span class="tag tip">Dart Track比Arrow Track刺激很多</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">5:00pm 或 7:45pm 场次</div>
+      <div class="it-t">Stratosfare · Premium Dinner</div>
+      <div class="it-d">山顶全景自助餐，靠窗位俯瞰瓦卡蒂普湖，套餐含缆车往返+一杯限定酒水。晚餐后蓝调时分下山，湖景极美</div>
+      <div class="tags"><span class="tag cost">NZD 167/人（含缆车）</span><span class="tag warn">提前网上预订，热门时段容易满</span><span class="tag warn">山上风大且冷，带外套手套</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 2 -->
+<div class="panel" id="p-d2">
+  <div class="day-hdr">
+    <h2>Day 2 · 6月9日（周二）</h2>
+    <p>米尔福德峡湾 · 全天 · 单程实际约5.5小时 · 必须极早出发</p>
+  </div>
+  <div class="tl">
+    <div class="it move">
+      <div class="it-time">5:30am 出发</div>
+      <div class="it-t">自驾前往米尔福德峡湾</div>
+      <div class="it-d">288km，含弯路和停留实际约5.5小时。路线：皇后镇 → 魔鬼阶梯 → Te Anau → 镜湖（Mirror Lakes）→ Homer隧道 → 峡湾码头</div>
+      <div class="tags"><span class="tag warn">Te Anau是最后加油点，必须在此加满</span><span class="tag warn">Homer隧道冬季单向通行，可能需等候</span><span class="tag tip">镜湖、Chasm深渊各停10分钟值得</span></div>
+    </div>
+    <div class="it act">
+      <div class="it-time">约11:00am 抵达</div>
+      <div class="it-t">RealNZ 米尔福德峡湾游船</div>
+      <div class="it-d">约2小时。途经 Stirling Falls（伸手可摸水雾）、Mitre Peak、海豹岩、Bowen Falls。可见海豚、海豹。船上有室内暖区</div>
+      <div class="tags"><span class="tag cost">NZD 169–175/人</span><span class="tag warn">提前网上预订，现场票可能售罄</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">游船结束后</div>
+      <div class="it-t">简单午餐</div>
+      <div class="it-d">峡湾码头选择有限，建议自带三明治或简单食物</div>
+    </div>
+    <div class="it move">
+      <div class="it-time">1:30pm 立即出发</div>
+      <div class="it-t">驾车返回皇后镇</div>
+      <div class="it-d">冬季日落约5pm，务必1:30前出发确保天黑前通过Homer隧道。约晚上7–8pm到家</div>
+      <div class="tags"><span class="tag warn">1:30pm是最迟出发时间，天黑后山路危险</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 3 -->
+<div class="panel" id="p-d3">
+  <div class="day-hdr">
+    <h2>Day 3 · 6月10日（周三）</h2>
+    <p>鲨鱼快艇 + Zipline · 峡湾后恢复日 · 两项活动均在市区</p>
+  </div>
+  <div class="tl">
+    <div class="it act">
+      <div class="it-time">9:20am check-in</div>
+      <div class="it-t">Hydro Attack · 鲨鱼快艇</div>
+      <div class="it-d">地址：Lapsley Butson Wharf，Earnslaw Park旁，湖边步行可达。冬季首场9:30。2人同场次约25分钟含安全讲解，无需分批</div>
+      <div class="tags"><span class="tag cost">早鸟NZD 165/人（9:30场）</span><span class="tag cost">普通场NZD 229/人</span><span class="tag warn">体重上限110kg，身高上限192cm</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">约10:30am</div>
+      <div class="it-t">早午餐 · 市区咖啡厅</div>
+      <div class="it-d">Vudon（Camp St）或 Bespoke Kitchen，本地热门，无需排队</div>
+    </div>
+    <div class="it act">
+      <div class="it-time">下午</div>
+      <div class="it-t">Ziptrek Ecotours · Zipline滑索</div>
+      <div class="it-d">预订处在45 Camp St（市区）。出发点在Bob's Peak山顶，需坐Skyline缆车上山（票另购）。Kea 6线最后一段从山顶直滑山脚，最震撼</div>
+      <div class="tags"><span class="tag cost">Moa 4线NZD 149/人</span><span class="tag cost">Kea 6线NZD 195/人</span><span class="tag cost">缆车票查Skyline官网当日价</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">晚上</div>
+      <div class="it-t">晚餐 · Fergburger</div>
+      <div class="it-d">皇后镇必吃，晚上排队比午高峰短</div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 4 -->
+<div class="panel" id="p-d4">
+  <div class="day-hdr">
+    <h2>Day 4 · 6月11日（周四）</h2>
+    <p>Real Guns 射击 + 瓦纳卡孤树 · 三地地理天然串联</p>
+  </div>
+  <div class="tl">
+    <div class="it move">
+      <div class="it-time">10:45am 出发</div>
+      <div class="it-t">自驾前往 Cardrona · 约1小时</div>
+      <div class="it-d">全程56km，沿Cardrona Valley Road，山谷草原风景极美。导航搜"Real Guns New Zealand"，注意路边镂空铁门是入口</div>
+    </div>
+    <div class="it act">
+      <div class="it-time">11:45am check-in · 12:00pm 场次</div>
+      <div class="it-t">Real Guns · 实弹射击</div>
+      <div class="it-d">提前15分钟到，必带护照原件核验。基础套餐：20发.22步枪（瞄准镜精准射击）+ 10发霰弹枪（打飞碟），一对一教练。完成后可加购巴雷特.50 BMG，教练协助扶枪</div>
+      <div class="tags"><span class="tag cost">基础套餐NZD 169/人</span><span class="tag cost">巴雷特现场咨询（参考NZD 50/发）</span><span class="tag warn">旺季提前至少3天预约</span><span class="tag warn">迟到取消不退款</span><span class="tag warn">女生长裤平底鞋，带防风外套</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">约2:00pm</div>
+      <div class="it-t">午餐 · Cardrona Hotel</div>
+      <div class="it-d">1863年建成的历史老酒馆，距射击场5分钟，专程一去</div>
+    </div>
+    <div class="it move">
+      <div class="it-time">约3:00pm</div>
+      <div class="it-t">继续前行30分钟 → 瓦纳卡</div>
+      <div class="it-d">Cardrona往瓦纳卡方向顺路，无需折返</div>
+    </div>
+    <div class="it act">
+      <div class="it-time">3:30–4:30pm</div>
+      <div class="it-t">That Wanaka Tree · 湖中孤树</div>
+      <div class="it-d">冬季日落约5pm，4:00–4:30到达光线最好，黄昏金光最出片</div>
+      <div class="tags"><span class="tag tip">4:00–4:30到达是黄金拍照时间</span></div>
+    </div>
+    <div class="it move">
+      <div class="it-time">5:00pm 前出发</div>
+      <div class="it-t">返回皇后镇 · 约1小时</div>
+      <div class="it-d">冬季山路天黑弯多，5pm前必须出发</div>
+      <div class="tags"><span class="tag warn">5pm前出发，不要拖延</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 5 -->
+<div class="panel" id="p-d5">
+  <div class="day-hdr">
+    <h2>Day 5 · 6月12日（周五）</h2>
+    <p>冰川直升机徒步 · 全程最重一天 · 取消率约50%</p>
+  </div>
+  <div class="tl">
+    <div class="it move">
+      <div class="it-time">6:30am 出发</div>
+      <div class="it-t">自驾前往弗朗兹·约瑟夫村</div>
+      <div class="it-d">约4–5小时，途经哈斯特山口（Haast Pass），沿途雨林+峡谷+山口风景极佳</div>
+      <div class="tags"><span class="tag warn">出发前加满油，沿途加油站极少</span><span class="tag tip">哈斯特山口值得停车拍照15分钟</span></div>
+    </div>
+    <div class="it act">
+      <div class="it-time">约11:30am 抵达 · 提前45分钟check-in</div>
+      <div class="it-t">Franz Josef Glacier Guides · 直升机冰川徒步</div>
+      <div class="it-d">集合：Glacier Base，63 Cron Street，Franz Josef村。发放Gore-Tex外套、羊毛帽手套、皮靴+冰爪（装备全由向导提供）。直升机约10分钟飞抵冰川约1300m高度，冰上约2小时：穿越冰裂缝、进冰洞拍照、向导讲解地质，全程约4小时</div>
+      <div class="tags"><span class="tag cost">约NZD 800/人</span><span class="tag warn">取消率约50%，天气取消换观光飞行非退款，预订前看清条款</span><span class="tag warn">出发当天早上致电确认是否照常运行</span><span class="tag tip">轻装上阵，所有装备向导提供</span></div>
+    </div>
+    <div class="it move">
+      <div class="it-time">徒步结束后立即出发</div>
+      <div class="it-t">返回皇后镇 · 约4–5小时</div>
+      <div class="it-d">约晚上9–10pm到家，今晚早睡，明天滑雪</div>
+    </div>
+  </div>
+  <div class="alt-box">
+    <strong>🟣 冰川取消备案</strong>
+    <p>取消通知通常当天早上发出。凭voucher可换等价观光飞行（俯瞰冰川全貌）。Day 5改去滑雪，Day 6继续滑第二天，反而得到完整两天雪场体验。</p>
+  </div>
+</div>
+
+<!-- DAY 6 -->
+<div class="panel" id="p-d6">
+  <div class="day-hdr">
+    <h2>Day 6 · 6月13日（周六）</h2>
+    <p>整天滑雪 · 冰川备用天 · 雪场全山今日起正式开放</p>
+  </div>
+  <div class="tl">
+    <div class="it move">
+      <div class="it-time">8:30am 出发</div>
+      <div class="it-t">自驾前往雪场</div>
+      <div class="it-d">两个选择：<br>· <strong>Coronet Peak</strong>：18km约25分钟，各级别均有，地形丰富<br>· <strong>The Remarkables</strong>：25km约30分钟，山景更壮观，中级道为主<br>两场均9:00am–4:00pm，6月13日起全山正式开放</div>
+      <div class="tags"><span class="tag tip">提前网购早鸟票可省约20%</span><span class="tag tip">任选其一即可，风格各有特色</span></div>
+    </div>
+    <div class="it act">
+      <div class="it-time">9:00am–4:00pm</div>
+      <div class="it-t">全天滑雪</div>
+      <div class="it-d">充分利用全天开放时间</div>
+      <div class="tags"><span class="tag cost">日票NZD 120–165/人</span><span class="tag cost">租雪具NZD 60–80/天（山脚租借）</span><span class="tag warn">山顶极冷，护目镜手套必备</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">中午</div>
+      <div class="it-t">山顶餐厅午餐</div>
+      <div class="it-d">两个雪场山顶均有餐厅，价格偏贵，建议带些零食热饮</div>
+    </div>
+    <div class="it move">
+      <div class="it-time">4:00pm 后</div>
+      <div class="it-t">下山返回皇后镇</div>
+      <div class="it-d">早休息，明天酒庄轻松收尾</div>
+    </div>
+  </div>
+  <div class="alt-box">
+    <strong>🟣 若冰川Day 5已取消改滑雪</strong>
+    <p>Day 6 可继续第二天滑雪，或改为轻松安排：Arrowtown古镇（20分钟车程，淘金小镇，冬季氛围极好）+ 市区购物整理行李。</p>
+  </div>
+</div>
+
+<!-- DAY 7 -->
+<div class="panel" id="p-d7">
+  <div class="day-hdr">
+    <h2>Day 7 · 6月14日（周日）</h2>
+    <p>Gibbston Valley 酒庄 + 收尾 · 今日乘班车，无需开车</p>
+  </div>
+  <div class="tl">
+    <div class="it act">
+      <div class="it-time">10:00am 班车出发</div>
+      <div class="it-t">Gibbston Valley 酒庄 · 班车往返</div>
+      <div class="it-d">班车从皇后镇市区 Shotover & Camp St 路口出发，冬季仅10:00和14:00两班，车程约30分钟，需提前预约。推荐 Wine Cave Tour（新西兰最大酒窖，300桶法国橡木桶陈酿）。招牌 Central Otago 黑皮诺，带一瓶回去</div>
+      <div class="tags"><span class="tag cost">品酒约NZD 30–60/人</span><span class="tag cost">班车费用另计</span><span class="tag tip">Wine Cave Tour是特色，值得升级</span><span class="tag warn">冬季班车仅两班，必须提前预约</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">酒庄午餐</div>
+      <div class="it-t">酒庄餐厅 · 配搭黑皮诺</div>
+      <div class="it-d">Gibbston Valley 附设餐厅，季节性本地食材，配自产酒</div>
+    </div>
+    <div class="it move">
+      <div class="it-time">约1:30pm 或 4:00pm 班车</div>
+      <div class="it-t">班车返回皇后镇</div>
+      <div class="it-d">10am去→1:30pm回；或14:00去→4:00pm回，后者时间更宽裕</div>
+    </div>
+    <div class="it act">
+      <div class="it-time">下午</div>
+      <div class="it-t">市区购买伴手礼</div>
+      <div class="it-d">Whittaker's巧克力 · 麦卢卡蜂蜜 · 羊毛制品 · 市区商店集中步行可达</div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">晚上</div>
+      <div class="it-t">告别晚餐</div>
+      <div class="it-d">Botswana Butchery（湖边，适合正式收尾）或 Rata（本地食材精品）</div>
+    </div>
+    <div class="it stay">
+      <div class="it-time">明天（6/15 周一）</div>
+      <div class="it-t">还车 + 皇后镇机场离开</div>
+      <div class="it-d">机场距市区约10分钟，国际航班提前3小时到达。还车前拍照记录车况</div>
+      <div class="tags"><span class="tag warn">还车前拍照记录车况，防纠纷</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('p-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

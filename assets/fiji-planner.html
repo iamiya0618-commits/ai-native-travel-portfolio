@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>斐济 · 5天行程</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+  :root {
+    --cream: #F7F4EF;
+    --ink: #1A1814;
+    --slate: #4A4640;
+    --mist: #9B9590;
+    --teal: #1A7A6E;
+    --blue: #2B5EA7;
+    --amber: #B86A1E;
+    --red: #A63228;
+    --border: #E0DAD0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); }
+
+  .header { padding: 2rem 2rem 1.25rem; border-bottom: 1px solid var(--border); }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+  .header p { font-size: 13px; color: var(--mist); font-weight: 300; }
+
+  .tabs { display: flex; padding: 0 2rem; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { padding: 13px 16px; font-size: 12px; font-weight: 500; color: var(--mist); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: all .2s; letter-spacing: 0.3px; }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+  .content { padding: 1.75rem 2rem; max-width: 800px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .day-hdr { margin-bottom: 1.5rem; }
+  .day-hdr h2 { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600; margin-bottom: 3px; }
+  .day-hdr p { font-size: 13px; color: var(--mist); font-weight: 300; }
+
+  .tl { position: relative; padding-left: 22px; }
+  .tl::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: var(--border); }
+
+  .it { position: relative; margin-bottom: 18px; }
+  .it::before { content: ''; position: absolute; left: -17px; top: 5px; width: 7px; height: 7px; border-radius: 50%; }
+  .it.act::before { background: var(--teal); }
+  .it.move::before { background: var(--blue); }
+  .it.eat::before { background: var(--amber); }
+  .it.stay::before { background: #7F77DD; }
+  .it.fly::before { background: var(--ink); }
+
+  .it-time { font-size: 10px; font-weight: 500; color: var(--mist); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 2px; }
+  .it-t { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.4; margin-bottom: 3px; }
+  .it-d { font-size: 13px; color: var(--slate); line-height: 1.65; font-weight: 300; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .tag { font-size: 11px; padding: 2px 9px; border-radius: 20px; }
+  .tag.cost { background: #FDF0E0; color: #7A4010; }
+  .tag.tip { background: #EEF0FD; color: #2E3A9E; }
+  .tag.warn { background: #FDECEA; color: #8B2020; }
+  .tag.inc { background: #E8F4EA; color: #1D5C30; }
+  .tag.done { background: #E8F4EA; color: #1D5C30; font-weight: 500; }
+
+  .budget-table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+  .budget-table th { font-size: 11px; font-weight: 500; color: var(--mist); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); letter-spacing: 0.3px; text-transform: uppercase; }
+  .budget-table td { font-size: 13px; color: var(--slate); padding: 8px 10px; border-bottom: 1px solid var(--border); font-weight: 300; }
+  .budget-table td:last-child { text-align: right; font-weight: 500; color: var(--ink); }
+  .budget-table tr.confirmed td { background: #F4FAF5; }
+  .budget-table tr.confirmed td:first-child::before { content: '✓ '; color: #1D5C30; font-size: 11px; }
+  .budget-table tr.estimated td { color: var(--mist); }
+  .budget-table tr.total td { font-weight: 600; color: var(--ink); font-size: 14px; border-top: 2px solid var(--ink); border-bottom: none; padding-top: 12px; }
+  .budget-table tr.subtotal-row td { font-size: 12px; color: var(--mist); font-style: italic; padding: 4px 10px; border-bottom: none; }
+
+  .note-box { border-radius: 6px; padding: 12px 14px; margin-top: 12px; }
+  .note-box.amber { background: #FDF8EE; border-left: 3px solid var(--amber); }
+  .note-box.red { background: #FDECEA; border-left: 3px solid var(--red); }
+  .note-box p { font-size: 13px; color: var(--slate); line-height: 1.65; font-weight: 300; }
+  .note-box strong { font-weight: 500; color: var(--ink); }
+
+  .section-title { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--ink); margin: 1.5rem 0 0.75rem; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+
+  .ov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 1.5rem; }
+  .ov-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+  .ov-card .label { font-size: 10px; color: var(--mist); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .ov-card .value { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .ov-card .sub { font-size: 11px; color: var(--mist); margin-top: 2px; font-weight: 300; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>斐济 · 5天4晚</h1>
+  <p>6月9日落地楠迪 → 6月13日离开 · 2人 · 价格均为CNY（2人合计）</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('ov',this)">总览 & 费用</button>
+  <button class="tab" onclick="show('d1',this)">Day 1 · 6/9</button>
+  <button class="tab" onclick="show('d2',this)">Day 2 · 6/10</button>
+  <button class="tab" onclick="show('d3',this)">Day 3 · 6/11</button>
+  <button class="tab" onclick="show('d4',this)">Day 4 · 6/12</button>
+  <button class="tab" onclick="show('d5',this)">Day 5 · 6/13</button>
+</div>
+
+<div class="content">
+
+<!-- OVERVIEW -->
+<div class="panel active" id="p-ov">
+  <div class="day-hdr">
+    <h2>行程总览</h2>
+    <p>楠迪美居 2晚 · 鲨鱼深潜当天来回 · Sheraton Tokoriki 2晚</p>
+  </div>
+  <div class="ov-grid">
+    <div class="ov-card"><div class="label">Day 1 · 6/9</div><div class="value">落地楠迪</div><div class="sub">美居酒店住1晚</div></div>
+    <div class="ov-card"><div class="label">Day 2 · 6/10</div><div class="value">鲨鱼深潜</div><div class="sub">当天来回·美居住1晚</div></div>
+    <div class="ov-card"><div class="label">Day 3 · 6/11</div><div class="value">去Tokoriki</div><div class="sub">12:00船·1:45到·Sheraton</div></div>
+    <div class="ov-card"><div class="label">Day 4 · 6/12</div><div class="value">Sheraton全天</div><div class="sub">冲浪·浮潜·放松</div></div>
+    <div class="ov-card"><div class="label">Day 5 · 6/13</div><div class="value">离开</div><div class="sub">10:30船·11:45到·16:35飞</div></div>
+  </div>
+
+  <div class="section-title">完整费用明细（2人合计）</div>
+  <table class="budget-table">
+    <tr><th>项目</th><th>备注</th><th>CNY</th></tr>
+
+    <tr class="subtotal-row"><td colspan="3">── 已确认 ──</td></tr>
+    <tr class="confirmed"><td>机票</td><td>悉尼↔楠迪，2人往返</td><td>7,732</td></tr>
+    <tr class="confirmed"><td>美居酒店 2晚</td><td>434/晚 × 2晚</td><td>868</td></tr>
+    <tr class="confirmed"><td>Sheraton Tokoriki 2晚</td><td>3,320/晚（不含餐）× 2晚</td><td>6,640</td></tr>
+    <tr class="confirmed"><td>鲨鱼深潜</td><td>飞猪，1,770/人 × 2人，含船票餐饮接送</td><td>3,540</td></tr>
+    <tr class="confirmed"><td>船票 Nadi→Tokoriki</td><td>1,288/人 × 2人，6/11 12:00出发</td><td>2,576</td></tr>
+    <tr class="confirmed"><td>船票 Tokoriki→Nadi</td><td>1,288/人 × 2人，6/13 10:30出发</td><td>已含上行</td></tr>
+    <tr><td colspan="2" style="font-size:12px;color:var(--teal);padding:6px 10px;font-weight:500">已确认小计</td><td style="color:var(--teal);font-weight:600">21,356</td></tr>
+
+    <tr class="subtotal-row"><td colspan="3">── 待付（估算）──</td></tr>
+    <tr class="estimated"><td>冲浪课</td><td>Sheraton，FJD 200，2人1节</td><td>约420</td></tr>
+    <tr class="estimated"><td>Sheraton餐饮</td><td>2天×早午晚，单点估算</td><td>约1,546–2,050</td></tr>
+    <tr class="estimated"><td>楠迪餐饮</td><td>2天午晚餐</td><td>约400</td></tr>
+    <tr class="estimated"><td>打车</td><td>机场↔Port Denarau，共4次</td><td>约400</td></tr>
+    <tr class="estimated"><td>小费 & 杂项</td><td>斐济小费文化，建议随身备FJD零钱</td><td>约300</td></tr>
+
+    <tr class="subtotal-row"><td colspan="3">── 待付估算 ──</td></tr>
+    <tr class="estimated"><td>冲浪课</td><td>FJD 200，2人1节</td><td>约420</td></tr>
+    <tr class="estimated"><td>Sheraton餐饮</td><td>2天早午晚，单点估算</td><td>约1,546–2,050</td></tr>
+    <tr class="estimated"><td>楠迪餐饮</td><td>2天午晚餐</td><td>约400</td></tr>
+    <tr class="estimated"><td>打车</td><td>机场↔Port Denarau，共4次</td><td>约400</td></tr>
+    <tr class="estimated"><td>小费 & 杂项</td><td>建议随身备FJD零钱</td><td>约300</td></tr>
+    <tr class="total"><td>预计总支出</td><td>人均约CNY 12,200–12,500</td><td>约24,422–24,926</td></tr>
+    <tr><td colspan="2" style="font-size:12px;color:var(--mist);padding:4px 10px;">超出2人CNY 20,000预算</td><td style="font-size:12px;color:var(--red);font-weight:500;text-align:right;">约+4,400–4,900</td></tr>
+  </table>
+
+  <div class="note-box amber">
+    <p><strong>船票说明：</strong>1,288/人为单人往返票价，2人合计CNY 2,576，已含去程（6/11 12:00）和回程（6/13 10:30）。✅ 已确认</p>
+  </div>
+
+  <div class="note-box red" style="margin-top:10px">
+    <p><strong>⚠️ 还需要做的事：</strong><br>
+    1. 提前72小时联系Sheraton确认接送安排<br>
+    2. 到Sheraton后预约冲浪课时间</p>
+  </div>
+</div>
+
+<!-- DAY 1 -->
+<div class="panel" id="p-d1">
+  <div class="day-hdr">
+    <h2>Day 1 · 6月9日（周二）</h2>
+    <p>落地楠迪 · 入住美居 · 休息适应</p>
+  </div>
+  <div class="tl">
+    <div class="it fly">
+      <div class="it-time">09:00 出发</div>
+      <div class="it-t">悉尼 → 楠迪</div>
+      <div class="it-d">飞行约4小时</div>
+      <div class="tags"><span class="tag done">✓ 已订</span></div>
+    </div>
+    <div class="it fly">
+      <div class="it-time">15:05 落地</div>
+      <div class="it-t">楠迪国际机场（NAN）</div>
+      <div class="it-d">过海关取行李约30–45分钟，出关后打车去美居</div>
+    </div>
+    <div class="it move">
+      <div class="it-time">约16:00</div>
+      <div class="it-t">打车前往美居酒店</div>
+      <div class="it-d">机场到酒店约15–20分钟</div>
+      <div class="tags"><span class="tag cost">约CNY 50</span></div>
+    </div>
+    <div class="it stay">
+      <div class="it-time">全天</div>
+      <div class="it-t">入住楠迪美居酒店</div>
+      <div class="it-d">今天以休息为主，明天鲨鱼深潜需要好状态。确认飞猪套餐明天的集合时间和地点</div>
+      <div class="tags"><span class="tag done">✓ 已订 CNY 434/晚</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">晚上</div>
+      <div class="it-t">楠迪晚餐</div>
+      <div class="it-d">Port Denarau Marina有不少海鲜餐厅，步行可达。或酒店餐厅解决</div>
+      <div class="tags"><span class="tag cost">约CNY 150–200（2人）</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 2 -->
+<div class="panel" id="p-d2">
+  <div class="day-hdr">
+    <h2>Day 2 · 6月10日（周三）</h2>
+    <p>鲨鱼深潜 · 当天来回 · 美居住第2晚</p>
+  </div>
+  <div class="tl">
+    <div class="it move">
+      <div class="it-time">早上（具体时间以飞猪套餐为准）</div>
+      <div class="it-t">接送车从美居酒店出发 → Port Denarau</div>
+      <div class="it-d">套餐含接送，出发前确认集合时间和地点</div>
+      <div class="tags"><span class="tag inc">含在套餐内</span></div>
+    </div>
+    <div class="it move">
+      <div class="it-time">08:45</div>
+      <div class="it-t">渡轮出发前往 Kuata Island</div>
+      <div class="it-d">约2小时船程，途经马马努卡群岛，沿途风景壮观</div>
+      <div class="tags"><span class="tag inc">含在套餐内</span></div>
+    </div>
+    <div class="it act">
+      <div class="it-time">抵达后 · 约10:45am</div>
+      <div class="it-t">鲨鱼深潜体验 · Awakening Shark Dive</div>
+      <div class="it-d">Yawake Reef，深度12m，教练5人以上全程陪同。潜水前泳池训练约1小时。可近距离接触牛鲨、护士鲨等大型鲨鱼。11am场，9am需完成训练</div>
+      <div class="tags"><span class="tag done">✓ 已订 CNY 3,540（2人）</span><span class="tag warn">潜水后72小时飞行✅（6/10潜→6/13飞）</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">岛上</div>
+      <div class="it-t">午餐</div>
+      <div class="it-d">套餐含餐，在岛上用餐</div>
+      <div class="tags"><span class="tag inc">含在套餐内</span></div>
+    </div>
+    <div class="it move">
+      <div class="it-time">16:05</div>
+      <div class="it-t">渡轮返回 Nadi</div>
+      <div class="it-d">约18:00抵达Port Denarau</div>
+      <div class="tags"><span class="tag inc">含在套餐内</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">晚上</div>
+      <div class="it-t">楠迪晚餐</div>
+      <div class="it-d">今天消耗大，好好吃一顿。Port Denarau Marina或酒店餐厅</div>
+      <div class="tags"><span class="tag cost">约CNY 150–200（2人）</span></div>
+    </div>
+    <div class="it stay">
+      <div class="it-time">晚上</div>
+      <div class="it-t">美居酒店 第2晚</div>
+      <div class="it-d">明天11:30前需到Port Denarau，提前准备好行李</div>
+      <div class="tags"><span class="tag done">✓ 已订 CNY 434/晚</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 3 -->
+<div class="panel" id="p-d3">
+  <div class="day-hdr">
+    <h2>Day 3 · 6月11日（周四）</h2>
+    <p>前往 Sheraton Tokoriki · 12:00船 · 13:45抵达</p>
+  </div>
+  <div class="tl">
+    <div class="it move">
+      <div class="it-time">约10:30am</div>
+      <div class="it-t">退房 · 打车前往 Port Denarau Marina</div>
+      <div class="it-d">约25分钟车程，需提前30分钟到码头check-in</div>
+      <div class="tags"><span class="tag cost">约CNY 100（打车）</span></div>
+    </div>
+    <div class="it move">
+      <div class="it-time">12:00 出发</div>
+      <div class="it-t">船前往 Tokoriki Island</div>
+      <div class="it-d">13:45抵达Sheraton Tokoriki，在沙滩迎宾、花环迎接</div>
+      <div class="tags"><span class="tag done">✓ 已订 CNY 2,576（2人往返）</span></div>
+    </div>
+    <div class="it stay">
+      <div class="it-time">13:45 抵达</div>
+      <div class="it-t">入住 Sheraton Tokoriki</div>
+      <div class="it-d">办理入住，熟悉度假村。预约明天冲浪课时间</div>
+      <div class="tags"><span class="tag done">✓ 已订 CNY 3,320/晚（不含餐）</span></div>
+    </div>
+    <div class="it act">
+      <div class="it-time">下午</div>
+      <div class="it-t">浮潜 · 泳池 · 沙滩</div>
+      <div class="it-d">House reef就在岸边，浮潜装备免费。珊瑚礁、热带鱼、可能见到海龟。无边泳池或沙滩晒太阳</div>
+      <div class="tags"><span class="tag inc">浮潜装备免费</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">晚上</div>
+      <div class="it-t">Waitui House · 晚餐</div>
+      <div class="it-d">主餐厅，国际料理，海鲜为主。自费点餐</div>
+      <div class="tags"><span class="tag cost">估算约CNY 400–600（2人）</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 4 -->
+<div class="panel" id="p-d4">
+  <div class="day-hdr">
+    <h2>Day 4 · 6月12日（周五）</h2>
+    <p>Sheraton 全天 · 冲浪 · 浮潜 · 完全放松</p>
+  </div>
+  <div class="tl">
+    <div class="it eat">
+      <div class="it-time">7:00–10:30am</div>
+      <div class="it-t">Waitui House · 早餐自助</div>
+      <div class="it-d">自费点餐</div>
+      <div class="tags"><span class="tag cost">FJD 54/人 · 约CNY 227（2人）</span></div>
+    </div>
+    <div class="it act">
+      <div class="it-time">上午</div>
+      <div class="it-t">冲浪课体验</div>
+      <div class="it-d">前台预约，教练带领，完全新手友好。6月浪况温和适合初学，约1.5–2小时</div>
+      <div class="tags"><span class="tag cost">FJD 200 · 约CNY 420（2人1节）</span></div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">中午</div>
+      <div class="it-t">Sala Lounge & Bar · 午餐</div>
+      <div class="it-d">海边露天餐吧，轻食三明治、沙拉等。自费点餐</div>
+      <div class="tags"><span class="tag cost">估算约CNY 200–300（2人）</span></div>
+    </div>
+    <div class="it act">
+      <div class="it-time">下午</div>
+      <div class="it-t">自由活动</div>
+      <div class="it-d">皮划艇、浮潜、泳池、沙滩——按心情来。度假村非机动水上活动免费</div>
+      <div class="tags"><span class="tag inc">皮划艇·浮潜装备免费</span></div>
+    </div>
+    <div class="it act">
+      <div class="it-time">约18:00</div>
+      <div class="it-t">沙滩日落</div>
+      <div class="it-d">斐济日落约18:00，在沙滩或无边泳池欣赏</div>
+    </div>
+    <div class="it eat">
+      <div class="it-time">晚上</div>
+      <div class="it-t">Waitui House · 晚餐</div>
+      <div class="it-d">最后一晚好好享用，建议提前预约靠窗位置</div>
+      <div class="tags"><span class="tag cost">估算约CNY 500–700（2人）</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 5 -->
+<div class="panel" id="p-d5">
+  <div class="day-hdr">
+    <h2>Day 5 · 6月13日（周六）</h2>
+    <p>退房 · 10:30船回楠迪 · 16:35飞离 · 时间充裕</p>
+  </div>
+  <div class="tl">
+    <div class="it eat">
+      <div class="it-time">7:00–10:00am</div>
+      <div class="it-t">最后一次早餐</div>
+      <div class="it-d">自费早餐，从容享用</div>
+      <div class="tags"><span class="tag cost">FJD 54/人 · 约CNY 227（2人）</span></div>
+    </div>
+    <div class="it act">
+      <div class="it-time">退房前</div>
+      <div class="it-t">退房 · 整理行李</div>
+      <div class="it-d">通常11:00am退房，行李可寄存前台</div>
+    </div>
+    <div class="it move">
+      <div class="it-time">10:30 出发</div>
+      <div class="it-t">船返回 Port Denarau</div>
+      <div class="it-d">11:45抵达楠迪</div>
+      <div class="tags"><span class="tag done">✓ 已订（含在往返票内）</span></div>
+    </div>
+    <div class="it move">
+      <div class="it-time">约12:00</div>
+      <div class="it-t">打车前往楠迪机场</div>
+      <div class="it-d">约25分钟，12:30前可到机场，距起飞还有4小时，时间非常充裕</div>
+      <div class="tags"><span class="tag cost">约CNY 100</span><span class="tag tip">时间充裕，可在机场吃午饭</span></div>
+    </div>
+    <div class="it fly">
+      <div class="it-time">16:35 起飞</div>
+      <div class="it-t">楠迪 → 悉尼</div>
+      <div class="it-d">飞行约4小时，19:40抵达悉尼</div>
+      <div class="tags"><span class="tag done">✓ 已订</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('p-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
