@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>张馨予 · 旅行产品案例集</title>
+  <meta name="description" content="张馨予的旅行产品案例集：基于真实旅行规划、朋友需求和内容反馈，展示旅行产品思维与 AI Travel Planner 构想。" />
+  <style>
+    :root{
+      --bg:#fbfbfa;
+      --paper:#ffffff;
+      --ink:#111111;
+      --muted:#666666;
+      --soft:#8b8b8b;
+      --line:#e6e6e2;
+      --line-dark:#cfcfca;
+      --max:1060px;
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",Arial,sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+    .nav{position:sticky;top:0;z-index:30;background:rgba(251,251,250,.86);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+    .nav-inner{max-width:var(--max);margin:0 auto;padding:13px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{font-size:14px;font-weight:650;letter-spacing:.01em}
+    .nav-links{display:flex;gap:18px;color:var(--muted);font-size:13px;white-space:nowrap}
+    .hero{padding:72px 0 48px;border-bottom:1px solid var(--line)}
+    .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:48px;align-items:end}
+    .eyebrow{margin:0 0 14px;color:var(--muted);font-size:13px;font-weight:650;letter-spacing:.04em}
+    h1{margin:0;font-size:clamp(30px,4.2vw,48px);line-height:1.2;letter-spacing:-.035em;font-weight:750}
+    .lead{margin:20px 0 0;max-width:650px;color:#2f2f2f;font-size:18px;line-height:1.85}
+    .note{margin-top:18px;color:var(--muted);font-size:14px;line-height:1.9}
+    .hero-panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+    .hero-panel p{margin:0;color:var(--muted);font-size:14px;line-height:1.85}
+    .mini-stats{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+    .mini-stat{padding:16px 0 0;border-right:1px solid var(--line);padding-right:14px;margin-right:14px}
+    .mini-stat:last-child{border-right:0;margin-right:0;padding-right:0}
+    .mini-stat b{display:block;font-size:24px;line-height:1.1;letter-spacing:-.02em}
+    .mini-stat span{display:block;margin-top:5px;color:var(--muted);font-size:12px;line-height:1.5}
+    .section{padding:56px 0;border-bottom:1px solid var(--line)}
+    .section-head{display:grid;grid-template-columns:230px 1fr;gap:56px;align-items:start;margin-bottom:26px}
+    .label{display:block;color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.02em}
+    h2{margin:0;font-size:clamp(22px,2.6vw,30px);line-height:1.35;letter-spacing:-.02em;font-weight:720}
+    .section-intro{margin:0;color:var(--muted);font-size:15px;line-height:1.95}
+    .story{display:grid;gap:0;border-top:1px solid var(--line-dark)}
+    .story-row{display:grid;grid-template-columns:230px 1fr;border-bottom:1px solid var(--line);padding:22px 0;gap:56px}
+    .story-row h3{margin:0;font-size:18px;line-height:1.45;letter-spacing:-.015em}
+    .story-row p{margin:0;color:var(--muted);font-size:15px;line-height:1.9}
+    .case{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:18px}
+    .case:first-of-type{margin-top:0}
+    .case-head{padding:26px 28px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start}
+    .case-number{color:var(--soft);font-size:13px;font-weight:700;margin-bottom:8px}
+    .case h3{margin:0;font-size:24px;line-height:1.35;letter-spacing:-.025em}
+    .case-desc{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.9}
+    .case-body{padding:26px 28px;display:grid;grid-template-columns:1fr 1fr;gap:28px;border-bottom:1px solid var(--line)}
+    .text-block{border-top:1px solid var(--line);padding-top:14px}
+    .text-block b{display:block;margin-bottom:6px;font-size:14px}
+    .text-block p{margin:0;color:var(--muted);font-size:14px;line-height:1.85}
+    .modules{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .module{border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#fcfcfc;color:#555;font-size:12px;line-height:1.2}
+    .screens{padding:24px 28px 28px;background:#fcfcfb}
+    .screen-note{margin:0 0 14px;color:var(--muted);font-size:13px}
+    .shot-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+    .shot-grid.single{grid-template-columns:1fr}
+    .shot-grid.phone{grid-template-columns:repeat(3,1fr)}
+    .shot{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+    .shot img{width:100%;height:auto;object-fit:contain;background:#fff}
+    .shot-caption{padding:10px 12px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.55}
+    .embed-planner{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:16px}
+    .embed-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;border-bottom:1px solid var(--line);background:#fafafa;color:var(--muted);font-size:13px}
+    .embed-bar b{color:var(--ink);font-size:13px}
+    .open-link{border:1px solid var(--line-dark);border-radius:999px;padding:5px 10px;color:#333;background:#fff;font-size:12px;white-space:nowrap}
+    .planner-frame{width:100%;height:640px;border:0;background:#fff;display:block}
+    .shot-grid.xhs{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:22px}
+    .xhs-meta{padding:14px 16px;border-top:1px solid var(--line);background:#fff;color:var(--muted);font-size:14px;line-height:1.8}
+    .xhs-meta b{color:#444;font-weight:650}
+    .xhs-summary{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-columns:repeat(3,1fr)}
+    .xhs-summary-item{min-height:112px;display:grid;place-items:center;text-align:center;padding:24px;border-right:1px solid var(--line)}
+    .xhs-summary-item:last-child{border-right:0}
+    .xhs-summary-item b{display:block;font-size:34px;line-height:1.1;letter-spacing:-.04em}
+    .xhs-summary-item span{display:block;margin-top:8px;color:var(--muted);font-size:14px}
+    .full-bleed{width:100%;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+    .full-bleed img{width:100%;height:auto;background:#fff}
+    .validation{display:block}
+    .ai{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .ai-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+    .ai-card h3{margin:0 0 10px;font-size:18px;line-height:1.4}
+    .ai-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.85}
+    .summary{padding:58px 0 72px}
+    .summary-box{background:#111;color:#fff;border-radius:22px;padding:34px}
+    .summary-box h2{font-size:28px;color:#fff;max-width:760px}
+    .summary-box p{margin:18px 0 0;color:rgba(255,255,255,.72);font-size:15px;line-height:1.9;max-width:760px}
+    footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-size:13px}
+    @media (max-width: 860px){
+      .nav-links{display:none}.hero-grid,.section-head,.story-row,.case-head,.case-body{grid-template-columns:1fr;gap:22px}.hero{padding-top:54px}.section{padding:46px 0}.shot-grid,.shot-grid.phone,.shot-grid.xhs,.ai,.xhs-summary{grid-template-columns:1fr}.xhs-summary-item{border-right:0;border-bottom:1px solid var(--line)}.xhs-summary-item:last-child{border-bottom:0}.planner-frame{height:560px}.mini-stats{grid-template-columns:1fr}.mini-stat{border-right:0;border-bottom:1px solid var(--line);padding:14px 0;margin:0}.mini-stat:last-child{border-bottom:0}.wrap,.nav-inner{padding-left:20px;padding-right:20px}.case-head,.case-body,.screens{padding-left:20px;padding-right:20px}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">张馨予 · 旅行产品案例集</a>
+      <div class="nav-links">
+        <a href="#why">为什么做</a>
+        <a href="#cases">案例</a>
+        <a href="#content">内容验证</a>
+        <a href="#ai">AI 构想</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Product Manager · Travel Builder</p>
+        <h1>把旅行攻略，做成真正可执行的产品方案。</h1>
+        <p class="lead">我不是只整理景点清单，而是把旅行中的信息碎片、预算不确定、预订遗漏和临时变动，转化为用户能理解、能选择、能照着执行的 Planner。</p>
+        <p class="note">这份案例集基于我为自己、家人和朋友制作的真实旅行规划，以及在小红书发布内容后获得的真实互动反馈。</p>
+      </div>
+      <aside class="hero-panel">
+        <p>我希望证明的是：旅行不是一个兴趣标签，而是一个持续观察用户、拆解约束、组织信息并快速做出可见作品的产品场景。</p>
+        <div class="mini-stats">
+          <div class="mini-stat"><b>4</b><span>份真实行程沉淀</span></div>
+          <div class="mini-stat"><b>HTML</b><span>交互式 Planner 实现</span></div>
+          <div class="mini-stat"><b>11K+</b><span>单篇内容最高浏览</span></div>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="why">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label">为什么做</span>
+          <div>
+            <h2>旅行的问题，本质上是决策问题。</h2>
+            <p class="section-intro">攻略不缺，缺的是能根据真实约束帮助用户做取舍的信息结构。我的作品重点不是“推荐哪里好玩”，而是让用户在出发前知道：怎么排、要花多少、哪些必须提前订、哪里有风险、临时变动怎么办。</p>
+          </div>
+        </div>
+        <div class="story">
+          <div class="story-row">
+            <h3>信息碎片化</h3>
+            <p>小红书、Google Maps、酒店、交通和官网信息分散，用户需要反复切换平台才能形成完整判断。产品机会是把分散信息重新组织成一个可执行页面。</p>
+          </div>
+          <div class="story-row">
+            <h3>预算不透明</h3>
+            <p>旅行费用往往不是一次性决策，而是机票、住宿、活动、餐饮、交通不断叠加。产品机会是把已付、待付和预算超支风险提前展示。</p>
+          </div>
+          <div class="story-row">
+            <h3>预订节点容易遗漏</h3>
+            <p>热门活动、船班、直升机、餐厅和一日团都有时间窗口。产品机会是把 Booking Priority 做成独立模块，而不是藏在备注里。</p>
+          </div>
+          <div class="story-row">
+            <h3>计划容易被现实打断</h3>
+            <p>天气、体力、航班、船班和安全规则会影响行程。产品机会是让 Planner 具备备用日、风险提醒和动态调整能力。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cases">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label">案例</span>
+          <div>
+            <h2>三个案例，分别对应不同旅行产品问题。</h2>
+            <p class="section-intro">新西兰和斐济展示我如何把攻略做成交互式 Planner；澳洲行程展示我如何为真实朋友和家人做可执行的旅行规划。</p>
+          </div>
+        </div>
+
+        <article class="case">
+          <div class="case-head">
+            <div>
+              <div class="case-number">案例 01</div>
+              <h3>如何降低冬季自驾旅行的不确定性？</h3>
+            </div>
+            <p class="case-desc">新西兰南岛 7 天自驾 Planner。用户需要在有限天数内兼顾峡湾、瓦纳卡、冰川、滑雪和酒庄，同时处理冬季驾驶、活动取消率和高价项目预订风险。</p>
+          </div>
+          <div class="case-body">
+            <div class="text-block">
+              <b>我的方案</b>
+              <p>以皇后镇为大本营，把每日路线、活动时间、费用、预订优先级和天气风险统一进一个可切换页面。核心不是堆行程，而是降低决策和执行成本。</p>
+              <div class="modules"><span class="module">Timeline</span><span class="module">Budget</span><span class="module">Booking Priority</span><span class="module">Risk Warning</span><span class="module">Backup Day</span></div>
+            </div>
+            <div class="text-block">
+              <b>产出价值</b>
+              <p>用户可以先看总览和费用，再进入每日安排；高风险项目被提前标记，备用日用于承接天气取消的不确定性。</p>
+            </div>
+          </div>
+          <div class="screens">
+            <p class="screen-note">这里直接嵌入完整的新西兰 Planner，而不是只放截图。招聘方可以在页面里滚动查看总览、每日安排、费用表和预订提醒。</p>
+            <div class="embed-planner">
+              <div class="embed-bar"><b>新西兰南岛 · 7天6晚 Planner</b><a class="open-link" href="assets/new-zealand-planner.html" target="_blank" rel="noopener">打开完整页面</a></div>
+              <iframe class="planner-frame" src="assets/new-zealand-planner.html" title="新西兰南岛 7天6晚 Planner"></iframe>
+            </div>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="case-head">
+            <div>
+              <div class="case-number">案例 02</div>
+              <h3>如何在短假期海岛旅行中减少交通和预算焦虑？</h3>
+            </div>
+            <p class="case-desc">斐济 5 天海岛旅行 Planner。短假期容错率低，船班、离岛酒店、鲨鱼深潜、返程航班和预算超支都需要提前被看见。</p>
+          </div>
+          <div class="case-body">
+            <div class="text-block">
+              <b>我的方案</b>
+              <p>把已确认费用、待付费用、船班时间、潜水后飞行安全间隔和返程约束放在同一套页面里，让用户先确认硬约束，再做体验选择。</p>
+              <div class="modules"><span class="module">船班衔接</span><span class="module">已付 / 待付</span><span class="module">安全提醒</span><span class="module">返程约束</span></div>
+            </div>
+            <div class="text-block">
+              <b>产出价值</b>
+              <p>帮助用户把“度假感”和“确定性”统一起来，避免因为交通、预算或安全规则导致临近出发才返工。</p>
+            </div>
+          </div>
+          <div class="screens">
+            <p class="screen-note">这里直接嵌入完整的斐济 Planner，展示短假期海岛旅行中预算、船班、酒店和深潜安全提醒如何被整合到同一个执行页面。</p>
+            <div class="embed-planner">
+              <div class="embed-bar"><b>斐济 · 5天4晚 Planner</b><a class="open-link" href="assets/fiji-planner.html" target="_blank" rel="noopener">打开完整页面</a></div>
+              <iframe class="planner-frame" src="assets/fiji-planner.html" title="斐济 5天4晚 Planner"></iframe>
+            </div>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="case-head">
+            <div>
+              <div class="case-number">案例 03</div>
+              <h3>如何让朋友和家人也能照表执行复杂行程？</h3>
+            </div>
+            <p class="case-desc">澳洲跨城旅行规划。相比给自己做攻略，为别人规划更接近真实产品场景：用户不是作者本人，信息必须清楚、稳定、可调整。</p>
+          </div>
+          <div class="case-body">
+            <div class="text-block">
+              <b>我的方案</b>
+              <p>用表格统一日期、城市、行程、餐厅备选、住宿、航班和备注；将实习时间、跟团、自驾、主题乐园、岛屿交通等约束放进执行链路。</p>
+              <div class="modules"><span class="module">日期</span><span class="module">行程</span><span class="module">餐厅备选</span><span class="module">住宿</span><span class="module">备注</span></div>
+            </div>
+            <div class="text-block">
+              <b>产出价值</b>
+              <p>让非攻略作者也能快速理解每天做什么、在哪吃、怎么移动、有哪些备用选项。这类场景验证了我的用户服务意识。</p>
+            </div>
+          </div>
+          <div class="screens">
+            <div class="shot-grid">
+              <div class="shot"><img src="assets/australia-family.png" alt="澳洲家庭旅行攻略截图"><div class="shot-caption">澳洲家庭多城行程：兼顾航班、住宿、餐饮和每日执行。</div></div>
+              <div class="shot"><img src="assets/australia-friend.png" alt="澳洲朋友旅行攻略截图"><div class="shot-caption">为朋友设计的跨城路线：把城市、岛屿和租车节点拆清楚。</div></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="content">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label">内容验证</span>
+          <div>
+            <h2>我也会用内容反馈验证用户兴趣。</h2>
+            <p class="section-intro">小红书笔记不是为了证明我是博主，而是证明我能判断哪些旅行和生活信息值得被收藏、被转发、被讨论。这对旅行产品的内容理解和用户洞察有直接价值。</p>
+          </div>
+        </div>
+        <div class="validation">
+          <div class="shot-grid xhs">
+            <div class="shot">
+              <img src="assets/xhs-1.jpg" alt="小红书 Truffles 美食笔记数据截图">
+              <div class="xhs-meta"><b>Truffles 美食笔记：</b>3154 浏览，156 点赞，166 收藏，8 评论，91 转发。</div>
+            </div>
+            <div class="shot">
+              <img src="assets/xhs-2.jpg" alt="小红书 ME Coffee 美食笔记数据截图">
+              <div class="xhs-meta"><b>咖啡推荐笔记：</b>5726 浏览，349 点赞，239 收藏，10 评论，256 转发。</div>
+            </div>
+            <div class="shot">
+              <img src="assets/xhs-3.jpg" alt="小红书 彩云南内容数据截图">
+              <div class="xhs-meta"><b>悉尼本地观察：</b>1.1 万+ 浏览，49 点赞，9 收藏，33 评论，206 转发。</div>
+            </div>
+          </div>
+          <div class="xhs-summary" aria-label="小红书内容数据概览">
+            <div class="xhs-summary-item"><div><b>1.1万+</b><span>最高单篇浏览</span></div></div>
+            <div class="xhs-summary-item"><div><b>349</b><span>单篇点赞</span></div></div>
+            <div class="xhs-summary-item"><div><b>239</b><span>单篇收藏</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="ai">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label">AI 产品构想</span>
+          <div>
+            <h2>如果做 AI Travel Planner，我不会只做“生成攻略”。</h2>
+            <p class="section-intro">旅行中的核心价值不是生成漂亮文本，而是帮助用户澄清需求、识别约束、解释取舍，并在旅行中根据现实变化重排行程。</p>
+          </div>
+        </div>
+        <div class="ai">
+          <div class="ai-card"><h3>需求澄清</h3><p>先问预算、同行人、体力、偏好、是否自驾和必须避开的体验，避免 AI 直接生成泛化攻略。</p></div>
+          <div class="ai-card"><h3>约束规划</h3><p>把航班、船班、开闭园、天气、潜水后飞行、冬季路况等硬约束前置，并自动检测冲突。</p></div>
+          <div class="ai-card"><h3>可解释行程</h3><p>不只给 Day by Day，还解释为什么这样排、哪些可替换、哪些必须提前订。</p></div>
+          <div class="ai-card"><h3>动态调整</h3><p>当用户临时疲惫、天气变化或餐厅取消时，基于原计划重排，而不是从零生成新攻略。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="summary">
+      <div class="wrap">
+        <div class="summary-box">
+          <h2>我的优势不是“很爱旅行”，而是能把旅行经验转化为产品判断。</h2>
+          <p>我能从真实旅行中发现问题，用信息架构降低用户决策成本，用页面和内容把方案做出来，并持续思考 AI 如何让旅行计划更可靠、更可执行。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">张馨予 · 旅行产品案例集 · 基于真实旅行规划与内容反馈整理</div>
+  </footer>
+</body>
+</html>
